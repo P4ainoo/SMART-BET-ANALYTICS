@@ -1,3 +1,9 @@
+
+export interface GroundingSource {
+  title: string;
+  uri: string;
+}
+
 export interface MatchData {
   id: string;
   league: string;
@@ -12,16 +18,16 @@ export interface MatchData {
   formAnalysis?: string;
 }
 
-export type MarketType = 'Match Winner' | 'Over/Under' | 'BTTS' | 'Double Chance';
+export type MarketType = 'Match Winner' | 'Over/Under' | 'BTTS' | 'Double Chance' | 'Correct Score';
 
 export interface BetLeg {
   matchId: string;
-  selection: string; // e.g., "Arsenal Win", "Over 2.5 Goals"
+  selection: string;
   odds: number;
-  modelProbability: number; // 0-100
-  edge: number; // Percentage difference between model and implied
+  modelProbability: number;
+  edge: number;
   reasoning: string;
-  historicalInsight?: string; // New: Key trend from previous seasons
+  historicalInsight?: string;
 }
 
 export interface ParlayRecommendation {
@@ -30,20 +36,75 @@ export interface ParlayRecommendation {
   totalOdds: number;
   modelWinProbability: number;
   expectedValue: number;
-  recommendedStake: number; // Amount
-  stakePercentage: number; // % of bankroll
+  recommendedStake: number;
+  stakePercentage: number;
   riskLevel: 'Safe' | 'Medium' | 'Risky';
-  confidenceScore: number; // 0-10
+  confidenceScore: number;
   overallReasoning: string;
+  sources?: GroundingSource[];
 }
+
+export interface BacktestTrade {
+  date: string;
+  matchups: string;
+  selection: string;
+  odds: number;
+  stake: number;
+  result: 'WIN' | 'LOSS';
+  pnl: number;
+  bankrollAfter: number;
+  notes: string;
+}
+
+export interface BacktestResult {
+  period: string;
+  startingBankroll: number;
+  targetBankroll: number;
+  finalBankroll: number;
+  totalTrades: number;
+  wins: number;
+  losses: number;
+  roi: number;
+  trades: BacktestTrade[];
+  analysis: string;
+  sources?: GroundingSource[];
+}
+
+export interface StrategyStep {
+  stepNumber: number;
+  date: string;
+  plannedStake: number;
+  projectedWin: number;
+  parlayRecommendation?: ParlayRecommendation;
+  status: 'ready' | 'pending_previous_win' | 'future_placeholder';
+  note: string;
+}
+
+export interface StrategyPlan {
+  createdAt: string;
+  startingBankroll: number;
+  targetBankroll: number;
+  targetOdds: number;
+  totalSteps: number;
+  steps: StrategyStep[];
+  analysis: string;
+  sources?: GroundingSource[];
+}
+
+export type AnalysisMode = 'live' | 'backtest' | 'strategy_prep' | 'betslip_of_the_week' | 'one_shot_challenge' | 'one_shot_backtest' | 'correct_score';
 
 export interface UserSettings {
   bankroll: number;
+  targetBankroll: number;
+  isGlobalScan: boolean;
   selectedLeagues: string[];
   preferredMarkets: MarketType[];
   maxLegs: number;
   targetDate: string;
   targetOdds: number;
+  minConfidence: number;
+  analysisMode: AnalysisMode;
+  backtestDate?: string;
 }
 
-export type AppState = 'setup' | 'searching' | 'analyzing' | 'results' | 'error';
+export type AppState = 'welcome' | 'setup' | 'searching' | 'analyzing' | 'results' | 'error' | 'backtesting' | 'backtest_results' | 'strategy_prep' | 'strategy_results' | 'betslip_results';

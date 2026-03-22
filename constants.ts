@@ -1,3 +1,4 @@
+
 import { MarketType } from "./types";
 
 export const AVAILABLE_LEAGUES = [
@@ -7,14 +8,36 @@ export const AVAILABLE_LEAGUES = [
   "Bundesliga",
   "Ligue 1",
   "Champions League",
-  "Europa League"
+  "Europa League",
+  "Conference League",
+  "Championship",
+  "Eredivisie",
+  "Primeira Liga",
+  "Süper Lig",
+  "Scottish Premiership",
+  "Belgian Pro League",
+  "Austrian Bundesliga",
+  "Swiss Super League",
+  "Eliteserien", // Norway
+  "Allsvenskan", // Sweden
+  "Superliga", // Denmark
+  "Greek Super League",
+  "Cypriot First Division", // Cyprus
+  "Polish Ekstraklasa",
+  "Brasileirão Série A",
+  "Primera División Argentina",
+  "Major League Soccer",
+  "Liga MX",
+  "J1 League",
+  "A-League",
+  "Saudi Pro League"
 ];
 
 export const AVAILABLE_MARKETS: MarketType[] = [
-  "Match Winner",
+  "Double Chance",
   "Over/Under",
   "BTTS",
-  "Double Chance"
+  "Match Winner"
 ];
 
 export const DEFAULT_BANKROLL = 1000;
